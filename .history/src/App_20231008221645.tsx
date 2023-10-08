@@ -25,7 +25,7 @@ function App() {
       </section>
 
       <section className="card">
-        {users && <UsersList allUsers={users} reset={reset}></UsersList>}
+        {users && <UsersList allUsers={allUsers} reset={reset}></UsersList>}
       </section>
     </>
   );

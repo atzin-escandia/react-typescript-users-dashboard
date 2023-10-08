@@ -21,11 +21,11 @@ function App() {
       <section>
         <button onClick={() => colorizeRows}>Color rows</button>
         <button>Order by country</button>
-        <button onClick={() => setReset(true)}>Reset</button>
+        <button>Reset</button>
       </section>
 
       <section className="card">
-        {users && <UsersList allUsers={users} reset={reset}></UsersList>}
+        {users && <UsersList users={users} reset={reset}></UsersList>}
       </section>
     </>
   );
