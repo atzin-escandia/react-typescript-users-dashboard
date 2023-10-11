@@ -54,27 +54,7 @@ function App() {
       : [...users];
   }, [users, filterCountry]);
 
-  const sortUsersByMultipleKeys = (
-    users: User[],
-    sortFunctions: (
-      | ((
-          a: { location: { country: string } },
-          b: { location: { country: string } }
-        ) => number)
-      | ((
-          a: { picture: { thumbnail: string } },
-          b: { picture: { thumbnail: string } }
-        ) => number)
-      | ((
-          a: { name: { first: string } },
-          b: { name: { first: string } }
-        ) => number)
-      | ((
-          a: { name: { last: string } },
-          b: { name: { last: string } }
-        ) => number)
-    )[]
-  ) => {
+  const sortUsersByMultipleKeys = (users, sortFunctions) => {
     return [...users].sort((a, b) => {
       for (const fn of sortFunctions) {
         const result = fn(a, b);

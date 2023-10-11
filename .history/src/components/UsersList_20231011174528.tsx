@@ -14,14 +14,13 @@ interface PropsUserList {
 }
 
 const UsersList = ({ users, showColors, removeUser, sortList }: Props) => {
-  // TODO: Change this to an object to send it to parent
   const TABLE_HEADER = ["Picture", "Name", "Surname", "Country", "Delete"];
   const UserRow = ({ user, color, index }: PropsUserList) => {
     const { picture, name, location } = user;
     const isEvenRow = index % 2 === 0;
 
     return (
-      <tr style={{ backgroundColor: color && isEvenRow && "#333" }}>
+      <tr style={{ backgroundColor: color && isEvenRow && "black" }}>
         <td>{<img src={picture.thumbnail} alt="Thumbnail user" />}</td>
         <td>{name.first}</td>
         <td>{name.last}</td>

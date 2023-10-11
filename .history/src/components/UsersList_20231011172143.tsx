@@ -4,7 +4,6 @@ interface Props {
   users: User[];
   showColors: boolean;
   removeUser: (index: number) => void;
-  sortList: (users: User[], sortKey: string) => void; // Define the sortList prop
 }
 
 interface PropsUserList {
@@ -13,15 +12,14 @@ interface PropsUserList {
   index: number;
 }
 
-const UsersList = ({ users, showColors, removeUser, sortList }: Props) => {
-  // TODO: Change this to an object to send it to parent
+const UsersList = ({ users, showColors, removeUser }: Props) => {
   const TABLE_HEADER = ["Picture", "Name", "Surname", "Country", "Delete"];
   const UserRow = ({ user, color, index }: PropsUserList) => {
     const { picture, name, location } = user;
     const isEvenRow = index % 2 === 0;
 
     return (
-      <tr style={{ backgroundColor: color && isEvenRow && "#333" }}>
+      <tr style={{ backgroundColor: color && isEvenRow && "black" }}>
         <td>{<img src={picture.thumbnail} alt="Thumbnail user" />}</td>
         <td>{name.first}</td>
         <td>{name.last}</td>
@@ -34,16 +32,11 @@ const UsersList = ({ users, showColors, removeUser, sortList }: Props) => {
   };
 
   return (
-    <table width="100%" style={{ marginTop: "80px" }}>
+    <table width="100%" style={{ marginTop: "100px" }}>
       <thead>
         <tr>
           {TABLE_HEADER.map((title: string, index: number) => (
-            <th
-              onClick={() => sortList(users, TABLE_HEADER[index])}
-              key={index}
-            >
-              {title}
-            </th>
+            <th key={index}>{title}</th>
           ))}
         </tr>
       </thead>

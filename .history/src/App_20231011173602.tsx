@@ -12,17 +12,15 @@ function App() {
   const originalUsers = useRef<User[]>([]);
 
   const sortFunctions = [
-    (
-      a: { location: { country: string } },
-      b: { location: { country: string } }
-    ) => a.location.country.localeCompare(b.location.country),
+    (a: { location: { country: string } }, b: { location: { country: any } }) =>
+      a.location.country.localeCompare(b.location.country),
     (
       a: { picture: { thumbnail: string } },
-      b: { picture: { thumbnail: string } }
+      b: { picture: { thumbnail: any } }
     ) => a.picture.thumbnail.localeCompare(b.picture.thumbnail),
-    (a: { name: { first: string } }, b: { name: { first: string } }) =>
+    (a: { name: { first: string } }, b: { name: { first: any } }) =>
       a.name.first.localeCompare(b.name.first),
-    (a: { name: { last: string } }, b: { name: { last: string } }) =>
+    (a: { name: { last: string } }, b: { name: { last: any } }) =>
       a.name.last.localeCompare(b.name.last),
   ];
 
@@ -54,27 +52,7 @@ function App() {
       : [...users];
   }, [users, filterCountry]);
 
-  const sortUsersByMultipleKeys = (
-    users: User[],
-    sortFunctions: (
-      | ((
-          a: { location: { country: string } },
-          b: { location: { country: string } }
-        ) => number)
-      | ((
-          a: { picture: { thumbnail: string } },
-          b: { picture: { thumbnail: string } }
-        ) => number)
-      | ((
-          a: { name: { first: string } },
-          b: { name: { first: string } }
-        ) => number)
-      | ((
-          a: { name: { last: string } },
-          b: { name: { last: string } }
-        ) => number)
-    )[]
-  ) => {
+  const sortUsersByMultipleKeys = (users, sortFunctions) => {
     return [...users].sort((a, b) => {
       for (const fn of sortFunctions) {
         const result = fn(a, b);
@@ -88,7 +66,9 @@ function App() {
 
   const sortedUsers = useMemo(() => {
     return sortByCountry
-      ? sortUsersByMultipleKeys(filteredUsers, sortFunctions)
+      ? [...filteredUsers].sort((a, b) =>
+          a.location.country.localeCompare(b.location.country)
+        )
       : filteredUsers;
   }, [filteredUsers, sortByCountry]);
 
@@ -113,7 +93,6 @@ function App() {
           <UsersList
             users={sortedUsers}
             removeUser={handleRemoveUser}
-            sortList={sortUsersByMultipleKeys}
             showColors={showColors}
           ></UsersList>
         )}

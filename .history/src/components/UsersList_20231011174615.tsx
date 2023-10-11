@@ -14,7 +14,6 @@ interface PropsUserList {
 }
 
 const UsersList = ({ users, showColors, removeUser, sortList }: Props) => {
-  // TODO: Change this to an object to send it to parent
   const TABLE_HEADER = ["Picture", "Name", "Surname", "Country", "Delete"];
   const UserRow = ({ user, color, index }: PropsUserList) => {
     const { picture, name, location } = user;
