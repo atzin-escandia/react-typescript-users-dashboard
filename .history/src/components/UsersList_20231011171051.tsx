@@ -12,7 +12,7 @@ interface PropsUserList {
   index: number;
 }
 
-const UsersList = ({ users, showColors, removeUser }: Props) => {
+const UsersList = ({ users, showColors, removeUser, sortByHeader }: Props) => {
   const TABLE_HEADER = ["Picture", "Name", "Surname", "Country", "Delete"];
   const UserRow = ({ user, color, index }: PropsUserList) => {
     const { picture, name, location } = user;

@@ -68,6 +68,7 @@ function App() {
           <UsersList
             users={sortedUsers}
             removeUser={handleRemoveUser}
+            sortByHeader={sortByHeader}
             showColors={showColors}
           ></UsersList>
         )}

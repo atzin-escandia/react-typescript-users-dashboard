@@ -14,6 +14,7 @@ interface PropsUserList {
 
 const UsersList = ({ users, showColors, removeUser }: Props) => {
   const TABLE_HEADER = ["Picture", "Name", "Surname", "Country", "Delete"];
+
   const UserRow = ({ user, color, index }: PropsUserList) => {
     const { picture, name, location } = user;
     const isEvenRow = index % 2 === 0;

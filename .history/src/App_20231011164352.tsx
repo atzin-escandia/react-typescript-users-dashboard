@@ -30,8 +30,10 @@ function App() {
   };
 
   const filteredUsers = useMemo(() => {
-    return filterCountry !== null && filterCountry.length > 0
-      ? users.filter((user) =>
+    console.log("ppp");
+
+    return typeof filterCountry === "string" && filterCountry.length > 0
+      ? [...users].filter((user) =>
           user.location.country
             .toLowerCase()
             .includes(filterCountry.toLowerCase())

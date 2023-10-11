@@ -14,6 +14,7 @@ interface PropsUserList {
 
 const UsersList = ({ users, showColors, removeUser }: Props) => {
   const TABLE_HEADER = ["Picture", "Name", "Surname", "Country", "Delete"];
+
   const UserRow = ({ user, color, index }: PropsUserList) => {
     const { picture, name, location } = user;
     const isEvenRow = index % 2 === 0;
@@ -41,15 +42,14 @@ const UsersList = ({ users, showColors, removeUser }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {users &&
-          users.map((user: User, index: number) => (
-            <UserRow
-              key={user.login.uuid}
-              user={user}
-              color={showColors}
-              index={index}
-            />
-          ))}
+        {users.map((user: User, index: number) => (
+          <UserRow
+            key={user.id.value}
+            user={user}
+            color={showColors}
+            index={index}
+          />
+        ))}
       </tbody>
     </table>
   );

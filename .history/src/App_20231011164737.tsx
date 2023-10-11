@@ -30,6 +30,8 @@ function App() {
   };
 
   const filteredUsers = useMemo(() => {
+    console.log("ppp");
+
     return filterCountry !== null && filterCountry.length > 0
       ? users.filter((user) =>
           user.location.country

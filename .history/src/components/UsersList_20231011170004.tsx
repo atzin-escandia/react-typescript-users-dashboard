@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { User } from "../types.d";
 
 interface Props {
@@ -14,6 +15,7 @@ interface PropsUserList {
 
 const UsersList = ({ users, showColors, removeUser }: Props) => {
   const TABLE_HEADER = ["Picture", "Name", "Surname", "Country", "Delete"];
+  const [sortByHeader, setSortByHeader] = useState(null);
   const UserRow = ({ user, color, index }: PropsUserList) => {
     const { picture, name, location } = user;
     const isEvenRow = index % 2 === 0;
@@ -36,7 +38,15 @@ const UsersList = ({ users, showColors, removeUser }: Props) => {
       <thead>
         <tr>
           {TABLE_HEADER.map((title: string, index: number) => (
-            <th key={index}>{title}</th>
+            <>
+              <th key={index}>
+                {title}{" "}
+                <button onClick={sortByHeader()}>
+                  {" "}
+                  {sortByHeader ? "<" : ">"}
+                </button>
+              </th>
+            </>
           ))}
         </tr>
       </thead>

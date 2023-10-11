@@ -1,25 +1,27 @@
+import { useState } from "react";
 import { User } from "../types.d";
 
 interface Props {
-  users: User[];
-  showColors: boolean;
-  removeUser: (index: number) => void;
+  allUsers: User[];
 }
 
-interface PropsUserList {
-  user: User;
-  color: boolean;
-  index: number;
-}
-
-const UsersList = ({ users, showColors, removeUser }: Props) => {
+const UsersList = ({ allUsers }: Props) => {
   const TABLE_HEADER = ["Picture", "Name", "Surname", "Country", "Delete"];
-  const UserRow = ({ user, color, index }: PropsUserList) => {
+
+  const initialState = allUsers;
+  const [users, setUsers] = useState(initialState);
+
+  const removeUser = ({ index }) => {
+    const newUsers = [...allUsers];
+    const newList = newUsers.splice(index, 1);
+    setUsers(newList);
+  };
+
+  const UserRow = ({ user, color, index }) => {
     const { picture, name, location } = user;
-    const isEvenRow = index % 2 === 0;
 
     return (
-      <tr style={{ backgroundColor: color && isEvenRow && "black" }}>
+      <tr style={{ backgroundColor: color && "black" }}>
         <td>{<img src={picture.thumbnail} alt="Thumbnail user" />}</td>
         <td>{name.first}</td>
         <td>{name.last}</td>
@@ -32,7 +34,7 @@ const UsersList = ({ users, showColors, removeUser }: Props) => {
   };
 
   return (
-    <table width="100%">
+    <table>
       <thead>
         <tr>
           {TABLE_HEADER.map((title: string, index: number) => (
@@ -41,15 +43,9 @@ const UsersList = ({ users, showColors, removeUser }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {users &&
-          users.map((user: User, index: number) => (
-            <UserRow
-              key={user.login.uuid}
-              user={user}
-              color={showColors}
-              index={index}
-            />
-          ))}
+        {users.map((user: User, index: number) => (
+          <UserRow key={index} user={user} color={true} index={index} />
+        ))}
       </tbody>
     </table>
   );

@@ -8,7 +8,7 @@ function App() {
   const [showColors, setShowColors] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const [sortByCountry, setSortUsers] = useState(false);
-  const [filterCountry, setValueSearch] = useState<null | string>(null);
+  const [filterCopuntry, setValueSearch] = useState<null | string>(null);
   const originalUsers = useRef<User[]>([]);
 
   useEffect(() => {
@@ -30,18 +30,18 @@ function App() {
   };
 
   const filteredUsers = useMemo(() => {
-    return filterCountry !== null && filterCountry.length > 0
-      ? users.filter((user) =>
+    typeof filterCopuntry === "string" && filterCopuntry.length > 0
+      ? [...users].filter((user) =>
           user.location.country
             .toLowerCase()
-            .includes(filterCountry.toLowerCase())
+            .includes(filterCopuntry.toLowerCase())
         )
       : [...users];
-  }, [users, filterCountry]);
+  }, [users, filterCopuntry]);
 
   const sortedUsers = useMemo(() => {
     return sortByCountry
-      ? [...filteredUsers].sort((a, b) =>
+      ? [...users].sort((a, b) =>
           a.location.country.localeCompare(b.location.country)
         )
       : filteredUsers;

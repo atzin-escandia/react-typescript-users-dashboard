@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import UsersList from "./components/UsersList";
 import { User } from "./types";
@@ -7,8 +7,8 @@ const API_URL = "https://randomuser.me/api/?results=100";
 function App() {
   const [showColors, setShowColors] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
-  const [sortByCountry, setSortUsers] = useState(false);
-  const [filterCountry, setValueSearch] = useState<null | string>(null);
+  const [sortUsers, setSortUsers] = useState(false);
+  const [valueSearch, setValueSearch] = useState("");
   const originalUsers = useRef<User[]>([]);
 
   useEffect(() => {
@@ -25,39 +25,40 @@ function App() {
   };
 
   const handleRemoveUser = (index: number) => {
-    const newList = [...users].filter((_, i) => i !== index);
+    const newUsers = [...users];
+    const newList = newUsers.filter((_, i) => i !== index);
     setUsers(newList);
   };
 
-  const filteredUsers = useMemo(() => {
-    return filterCountry !== null && filterCountry.length > 0
-      ? users.filter((user) =>
-          user.location.country
-            .toLowerCase()
-            .includes(filterCountry.toLowerCase())
-        )
-      : [...users];
-  }, [users, filterCountry]);
+  const newUsers = [...users];
 
-  const sortedUsers = useMemo(() => {
-    return sortByCountry
-      ? [...filteredUsers].sort((a, b) =>
-          a.location.country.localeCompare(b.location.country)
+  const filteredList =
+    valueSearch !== null && valueSearch.length > 0
+      ? users.filter((user) =>
+          valueSearch
+            .toLowerCase()
+            .includes(user.location.country.toLowerCase())
         )
-      : filteredUsers;
-  }, [filteredUsers, sortByCountry]);
+      : users;
+
+  const sortedUsers = sortUsers
+    ? newUsers.sort((a, b) =>
+        a.location.country.localeCompare(b.location.country)
+      )
+    : filteredList;
 
   return (
     <>
       <h1>User list dashboard</h1>
       <header>
         <button onClick={() => setShowColors(!showColors)}>Color rows</button>
-        <button onClick={() => setSortUsers(!sortByCountry)}>
-          {sortByCountry ? "Not order by country" : "Order by country"}
+        <button onClick={() => setSortUsers(!sortUsers)}>
+          {sortUsers ? "Not order by country" : "Order by country"}
         </button>
         <button onClick={() => handleReset()}>Reset</button>
         <input
           type="text"
+          value={valueSearch}
           placeholder="Country"
           onChange={(e) => setValueSearch(e.target.value)}
         />

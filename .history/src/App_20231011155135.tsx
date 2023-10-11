@@ -7,8 +7,8 @@ const API_URL = "https://randomuser.me/api/?results=100";
 function App() {
   const [showColors, setShowColors] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
-  const [sortByCountry, setSortUsers] = useState(false);
-  const [filterCountry, setValueSearch] = useState<null | string>(null);
+  const [sortUsers, setSortUsers] = useState(false);
+  const [valueSearch, setValueSearch] = useState<null | string>(null);
   const originalUsers = useRef<User[]>([]);
 
   useEffect(() => {
@@ -24,36 +24,40 @@ function App() {
     setUsers(originalUsers.current);
   };
 
+  const handleSortUsers = (users: User[]) => {
+    console.log("pppp");
+  };
+
   const handleRemoveUser = (index: number) => {
     const newList = [...users].filter((_, i) => i !== index);
     setUsers(newList);
   };
 
-  const filteredUsers = useMemo(() => {
-    return filterCountry !== null && filterCountry.length > 0
-      ? users.filter((user) =>
+  const filteredList = useMemo(() => {
+    typeof valueSearch === "string" && valueSearch.length > 0
+      ? [...users].filter((user) =>
           user.location.country
             .toLowerCase()
-            .includes(filterCountry.toLowerCase())
+            .includes(valueSearch.toLowerCase())
         )
       : [...users];
-  }, [users, filterCountry]);
+  }, [users, valueSearch]);
 
   const sortedUsers = useMemo(() => {
-    return sortByCountry
-      ? [...filteredUsers].sort((a, b) =>
+    return sortUsers
+      ? [...users].sort((a, b) =>
           a.location.country.localeCompare(b.location.country)
         )
-      : filteredUsers;
-  }, [filteredUsers, sortByCountry]);
+      : filteredList;
+  }, [filteredList, sortUsers, users]);
 
   return (
     <>
       <h1>User list dashboard</h1>
       <header>
         <button onClick={() => setShowColors(!showColors)}>Color rows</button>
-        <button onClick={() => setSortUsers(!sortByCountry)}>
-          {sortByCountry ? "Not order by country" : "Order by country"}
+        <button onClick={() => setSortUsers(!sortUsers)}>
+          {sortUsers ? "Not order by country" : "Order by country"}
         </button>
         <button onClick={() => handleReset()}>Reset</button>
         <input

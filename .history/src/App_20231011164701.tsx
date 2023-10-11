@@ -30,6 +30,8 @@ function App() {
   };
 
   const filteredUsers = useMemo(() => {
+    console.log("ppp");
+
     return filterCountry !== null && filterCountry.length > 0
       ? users.filter((user) =>
           user.location.country
@@ -41,7 +43,7 @@ function App() {
 
   const sortedUsers = useMemo(() => {
     return sortByCountry
-      ? [...filteredUsers].sort((a, b) =>
+      ? filteredUsers.toSorted((a, b) =>
           a.location.country.localeCompare(b.location.country)
         )
       : filteredUsers;

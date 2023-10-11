@@ -30,8 +30,8 @@ function App() {
   };
 
   const filteredUsers = useMemo(() => {
-    return filterCountry !== null && filterCountry.length > 0
-      ? users.filter((user) =>
+    typeof filterCountry === "string" && filterCountry.length > 0
+      ? [...users].filter((user) =>
           user.location.country
             .toLowerCase()
             .includes(filterCountry.toLowerCase())
@@ -41,7 +41,7 @@ function App() {
 
   const sortedUsers = useMemo(() => {
     return sortByCountry
-      ? [...filteredUsers].sort((a, b) =>
+      ? [...users].sort((a, b) =>
           a.location.country.localeCompare(b.location.country)
         )
       : filteredUsers;
